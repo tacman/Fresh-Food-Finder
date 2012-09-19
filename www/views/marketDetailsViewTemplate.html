@@ -1,7 +1,7 @@
 
 <div id="marketDetailsView">
     <h2>{{marketName}}</h2>
-    
+
     <!-- website -->
     {{#website}}
     <div class="paragraph">
@@ -9,8 +9,8 @@
         <a href="javascript:openExternalURL('{{website}}')" target="_blank">{{website}}</a>
     </div>
     {{/website}}
-    
-    
+
+
     <!-- address -->
     <div class="paragraph">
         <strong>Location: </strong><br/>
@@ -19,22 +19,23 @@
         {{/street}}
         {{city}}, {{state}}, {{zip}}<br/><br/>
         <!-- <a class="button">Search The Web For This Address</a> -->
-        
+
         {{#county}}
         <strong>County: </strong><br/>
         {{county}}<br/><br/>
         {{/county}}
-        
+
         <!-- location details --->
         {{#location}}
         <strong>Notes: </strong><br/>
         {{location}}<br/><br/>
         {{/location}}
-        
+
         <!-- map location --->
         {{#y}}
         Lat: {{y}}, Lng: {{x}}<br/><br/>
         <a class="button" href="javascript:viewInMap({{index}})">View in Map</a>
+        <a class="button" href="javascript:takePhoto({{index}})">Take Photo</a>
         <a class="button" href="javascript:getDirections({{index}})">Get Directions</a>
         <!-- <a href="http://maps.google.com/maps?q={{y}},{{x}}" target="_blank">{{y}},{{x}}</a> -->
         {{/y}}
@@ -42,7 +43,7 @@
     {{#paymentDetail}}
     <div class="paragraph">
         <strong>Payment Options: </strong><br/>
-        
+
         {{#credit}}
         <div id="credit_cards" class="amenities">Credit Cards Accepted</div>
         {{/credit}}
@@ -58,64 +59,64 @@
         {{#snap}}
         <div id="snap" class="amenities">SNAP Accepted</div>
         {{/snap}}
-        
+
     </div>
     {{/paymentDetail}}
-    
+
     {{#productDetail}}
     <div class="paragraph">
-        
-        <strong>Available Goods: </strong><br/>       
+
+        <strong>Available Goods: </strong><br/>
         {{#bakedgoods}}
         <div id="bakedgoods" class="amenities">Baked Goods</div>
-        {{/bakedgoods}} 
+        {{/bakedgoods}}
         {{#cheese}}
         <div id="cheese" class="amenities">Cheese</div>
-        {{/cheese}} 
+        {{/cheese}}
         {{#crafts}}
         <div id="arts" class="amenities">Arts &amp; Crafts</div>
-        {{/crafts}} 
+        {{/crafts}}
         {{#flowers}}
         <div id="flowers" class="amenities">Flowers</div>
-        {{/flowers}} 
+        {{/flowers}}
         {{#seafood}}
         <div id="seafood" class="amenities">Seafood</div>
-        {{/seafood}} 
+        {{/seafood}}
         {{#fruit}}
         <div id="fruit" class="amenities">Fruit</div>
-        {{/fruit}} 
+        {{/fruit}}
         {{#herbs}}
         <div id="herbs" class="amenities">Herbs</div>
-        {{/herbs}} 
+        {{/herbs}}
         {{#vegetables}}
         <div id="vegetables" class="amenities">Vegetables</div>
-        {{/vegetables}} 
+        {{/vegetables}}
         {{#honey}}
         <div id="honey" class="amenities">Honey</div>
-        {{/honey}} 
+        {{/honey}}
         {{#jams}}
         <div id="jams" class="amenities">Jams</div>
-        {{/jams}} 
+        {{/jams}}
         {{#maple}}
         <div id="maple" class="amenities">Maple</div>
-        {{/maple}} 
+        {{/maple}}
         {{#nuts}}
         <div id="nuts" class="amenities">Nuts</div>
-        {{/nuts}}  
+        {{/nuts}}
         {{#meat}}
         <div id="meat" class="amenities">Meats</div>
-        {{/meat}}  
+        {{/meat}}
         {{#plants}}
         <div id="plants" class="amenities">Plants</div>
-        {{/plants}}  
+        {{/plants}}
         {{#prepared}}
         <div id="prepared" class="amenities">Prepared Foods</div>
-        {{/prepared}} 
+        {{/prepared}}
         {{#soap}}
         <div id="soap" class="amenities">Soap</div>
-        {{/soap}} 
-        
+        {{/soap}}
+
         <div class="subtext">(icons may not reflect actual products available)</div>
     </div>
-    {{/productDetail}}    
+    {{/productDetail}}
 </div>

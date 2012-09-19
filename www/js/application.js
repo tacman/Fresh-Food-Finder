@@ -1,6 +1,6 @@
 /*HTMLElement.prototype.originalRemoveEventListener
         = HTMLElement.prototype.removeEventListener;
- 
+
 HTMLElement.prototype.removeEventListener = function(type, listener, useCapture)
 {
     console.log('remove: ' + type);
@@ -15,19 +15,19 @@ $(document).ready( function(){
     loadTemplates( setupDefaultView );
 } );
 
-function setupDefaultView() { 
-    
-    var bodyView = viewAssembler.defaultView(); 
-    
+function setupDefaultView() {
+
+    var bodyView = viewAssembler.defaultView();
+
     //Setup the default view
-    var defaultView = { title: "Welcome!", 
+    var defaultView = { title: "Welcome!",
     view:  bodyView,
     };
-    
+
     //Setup the ViewNavigator
-    window.viewNavigator = new ViewNavigator( 'body' );	
+    window.viewNavigator = new ViewNavigator( 'body' );
     window.viewNavigator.pushView( defaultView );
-    
+
 	$.getScript("data.js", scriptSuccess);
 }
 
@@ -44,15 +44,15 @@ function onMapButtonClick( event ) {
 
 
 function onSearchResultMapButtonClick( event ) {
-    
+
     var centerPoint = {x:0,y:0};
     var len = 0;
-    
+
     for( var i = 0; i<window.filteredMarkesList.length; i++ ){
-    
+
         var _x = parseFloat(window.filteredMarkesList[i].x);
         var _y = parseFloat(window.filteredMarkesList[i].y);
-    
+
         if ( !isNaN( _x ) && !isNaN( _y ) ) {
             //console.log( i, len, _x, _y );
             centerPoint.x += _x;
@@ -63,7 +63,7 @@ function onSearchResultMapButtonClick( event ) {
     //console.log( centerPoint.x, centerPoint.y );
     centerPoint.x = centerPoint.x / len;
     centerPoint.y = centerPoint.y / len;
-    
+
     //console.log( centerPoint.x, centerPoint.y );
     centerPoint = new L.LatLng(centerPoint.y, centerPoint.x);
 
@@ -104,7 +104,7 @@ function onNearbyViewClick( event ) {
              view: viewAssembler.findNearbyView()
            };
     window.viewNavigator.pushView( view );
-    
+
     //acquire location
     navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true });
     event.stopPropagation();
@@ -123,16 +123,16 @@ var onGeoSuccess = function(position) {
      */
     var latitude = parseFloat( position.coords.latitude );
     var longitude = parseFloat( position.coords.longitude );
-    
+
     //set a delay to allow transition to complete before requesting data
-    setTimeout( function () {     
+    setTimeout( function () {
         var filtered = filterMarketsByGeo( latitude, longitude );
-            
+
         var view = { title: "Nearby",
              backLabel: (isTablet() ? "Back" : " "),
              view: viewAssembler.findNearbyView()
            };
-           
+
         view.view.children().remove();
         view.view.append( viewAssembler.nearbyMarketsView( latitude, longitude, filtered ) );
         window.viewNavigator.replaceView( view );
@@ -144,8 +144,8 @@ var onGeoSuccess = function(position) {
 function onGeoError(error) {
    /* alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
-     */   
-       
+     */
+
     //wait for transition complete
     setTimeout( function() {
         var view = { title: "Nearby",
@@ -171,7 +171,7 @@ function filterMarketsByGeo( latitude, longitude ) {
         if ( d < 100 ){
             result.push( markets[i] );
         }
-        
+
     }
     //console.log( new Date().getTime() - startTime );
     return result;
@@ -180,17 +180,17 @@ function filterMarketsByGeo( latitude, longitude ) {
 function distance( lat1, lon1, lat2, lon2 ) {
     var R = 6371; // Radius of the earth in km
     var dLat = toRad(lat2-lat1);  // Javascript functions in radians
-    var dLon = toRad(lon2-lon1); 
+    var dLon = toRad(lon2-lon1);
     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c; // Distance in km
     var m = 6 / 1.609344; // Distance in miles
     return d;
 }
 
-function toRad(degree) 
+function toRad(degree)
 {
     rad = degree* Math.PI/ 180;
     return rad;
@@ -198,7 +198,7 @@ function toRad(degree)
 
 
 function scriptSuccess(data, textStatus, jqXHR) {
-	
+
 	for ( var i=0; i<markets.length; i++ ) {
 	    markets[i].push( i.toString() );
 	}
@@ -207,13 +207,13 @@ function scriptSuccess(data, textStatus, jqXHR) {
 
 
 function onNearbyListItemClick( event ) {
-    
+
     $( "li" ).removeClass( "listSelected" );
     var target = $( event.target )
     if (target.get(0).nodeName.toUpperCase() != "LI") {
         target=target.parent();
     }
-    
+
     target.addClass( "listSelected" );
     var index = target.attr( "index" );
     index = parseInt( index );
@@ -221,13 +221,13 @@ function onNearbyListItemClick( event ) {
 }
 
 function showMarketDetailsFromMapClick( index ) {
-    
+
     setTimeout( function() {
         showMarketDetails( markets[index] );
     }, 50 );
 }
-    
-function showMarketDetails( item ) { 
+
+function showMarketDetails( item ) {
     var market = arrayToMarketObject(item);
     var view = { title: "Market Detail",
              backLabel: (isTablet() ? "Back" : " "),
@@ -238,21 +238,21 @@ function showMarketDetails( item ) {
 
 function onSearchButtonClick( event ) {
     var criteria = {};
-    
-    var fields = ["state", "searchPhrase", 
+
+    var fields = ["state", "searchPhrase",
                   "credit", "wiccash", "sfmnp", "snap",
                   "bakedGoods", "cheese", "crafts",
                   "flowers", "seafood", "fruit", "herbs", "vegetables", "honey", "jams", "maple",
                   "meat", "nuts", "plants", "soap"];
-    
+
     for ( var index in fields ) {
         var field = fields[ index ];
         var $input = $("#search_" + field);
         var value;
-        
+
         if ( index <= 1 ){
             value = $input.val();
-            
+
             if ( value != undefined && value.length > 0 ) {
                 criteria[field] = value;
             }
@@ -264,7 +264,7 @@ function onSearchButtonClick( event ) {
             }
         }
     }
-    
+
     var markets = filterMarketsBySearchCriteria( criteria );
     var view = { title: "Search Results",
              backLabel: (isTablet() ? "Back" : " "),
@@ -288,17 +288,17 @@ function filterMarketsBySearchCriteria( criteria ) {
 }
 
 function marketRowMatchesCriteria( row, criteria ) {
-    
+
     //state
     if ( row[6] != criteria.state ) { return false; }
-                  
+
     if ( criteria.credit == true )      {    if ( row[11] != "Y" ) return false;    };
     if ( criteria.wic == true )         {    if ( row[12] != "Y" ) return false;    };
     if ( criteria.wiccash == true )     {    if ( row[13] != "Y" ) return false;    };
     if ( criteria.sfmnp == true )       {    if ( row[14] != "Y" ) return false;    };
     if ( criteria.snap == true )        {    if ( row[15] != "Y" ) return false;    };
-    
-    
+
+
     if ( criteria.bakedGoods == true )  {    if ( row[16] != "Y" ) return false;    };
     if ( criteria.cheese == true )      {    if ( row[17] != "Y" ) return false;    };
     if ( criteria.crafts == true )      {    if ( row[18] != "Y" ) return false;    };
@@ -314,7 +314,7 @@ function marketRowMatchesCriteria( row, criteria ) {
     if ( criteria.nuts == true )        {    if ( row[28] != "Y" ) return false;    };
     if ( criteria.plants == true )      {    if ( row[29] != "Y" ) return false;    };
     if ( criteria.soap == true )        {    if ( row[31] != "Y" ) return false;    };
-    
+
     //searchString last
     if ( criteria.searchPhrase != undefined && criteria.searchPhrase.length > 0 ) {
         var tokens = criteria.searchPhrase.split(" ");
@@ -334,17 +334,17 @@ function marketRowMatchesCriteria( row, criteria ) {
         }
         return result;
     }
-    
+
     return true;
 }
 
-function criteriaToString( criteria ) { 
+function criteriaToString( criteria ) {
     var result = criteria.state;
-    
+
     if (criteria.searchPhrase) {
         result += ", '" + criteria.searchPhrase + "'";
     }
-     
+
     return result;
 }
 
@@ -359,10 +359,10 @@ function arrayToMarketObject( arr ) {
             result[ fields[index] ] = (arr[ index ] == "Y");
         }
     }
-    
+
     result.paymentDetail = result.credit || result.wic || result.wicash || result.sfmnp || result.snap;
     result.productDetail = result.bakedgoods || result.cheese || result.crafts || result.flowers || result.seafood || result.fruit || result.herbs || result.vegetables || result.honey || result.jams || result.maple || result.meat || result.nuts || result.plants || result.prepared || result.soap;
-    
+
     return result;
 }
 
@@ -376,7 +376,7 @@ function openExternalURL( url ) {
 
 function viewInMap( index ) {
     var market = arrayToMarketObject( markets[index] );
-    
+
      var view = { title: market.marketName,
              backLabel: (isTablet() ? "Back" : " "),
              view: viewAssembler.marketMapView( market ),
@@ -385,19 +385,79 @@ function viewInMap( index ) {
     window.viewNavigator.pushView( view );
 }
 
+// Called when capture operation is finished
+    //
+    function captureSuccess(mediaFiles) {
+        var i, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            // instead of uploading, we should write to the local directory (or database?), and
+            // we'll read from it in the marketDetail view
+            saveFile(mediaFiles[i]);
+            uploadFile(mediaFiles[i]);
+        }
+    }
+
+    // Upload files to server
+    function saveFile(mediaFile) {
+    }
+
+    // Upload files to server
+    function uploadFile(mediaFile) {
+        console.log(mediaFile);
+        var ft = new FileTransfer(),
+            path = mediaFile.fullPath,
+            name = mediaFile.name;
+
+        var options = FileUploadOptions(); // not finding this library?
+        options.chunkedMode = false;
+
+        // we also need to upload the store id
+        ft.upload(path,
+            "http://local.survos.com/app_dev.php", // which Bundle?  Probably PhotosetBundle, could be Survey.
+            function(result) {
+                console.log('Upload success: ' + result.responseCode);
+                console.log(result.bytesSent + ' bytes sent');
+            },
+            function(error) {
+                console.log('Error uploading file ' + path + ': ' + error.code);
+            },
+            { chunkedMode: false, fileName: name});
+    }
+        // Called if something bad happens.
+    //
+    function captureError(error) {
+        var msg = 'An error occurred during capture: ' + error.code;
+        navigator.notification.alert(msg, null, 'Uh oh!');
+    }
+
+
+function takePhoto( index ) {
+    var market = arrayToMarketObject( markets[index] );
+
+     var view = { title: market.marketName,
+             backLabel: (isTablet() ? "Back" : " "),
+             view: viewAssembler.marketMapView( market ),
+             scroll:false
+           };
+     navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 2});
+     // window.viewNavigator.pushView( view );
+
+
+}
+
 function getDirections( index ) {
     var market = arrayToMarketObject( markets[index] );
 
     var result=confirm("You will leave the Farmers Market Finder App.  Continue?");
     if (result==true) {
-        
+
         var win = navigator.userAgent.search( "Windows Phone" ) >= 0;
         var android = navigator.userAgent.search( "Android" ) >= 0;
-        
+
         /*if (win) {
             window.open( ('maps:' + market.y + ',' + market.x), '_blank' );
-        } 
-        else 
+        }
+        else
         */
         if (android) {
             navigator.app.loadUrl( 'http://maps.google.com/maps?q=' + market.y + ',' + market.x);
@@ -409,7 +469,7 @@ function getDirections( index ) {
 }
 
 
-			
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
